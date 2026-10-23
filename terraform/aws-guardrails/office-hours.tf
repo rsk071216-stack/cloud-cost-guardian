@@ -119,6 +119,7 @@ resource "aws_scheduler_schedule_group" "office_hours" {
 }
 
 resource "aws_scheduler_schedule" "office_hours" {
+  #checkov:skip=CKV_AWS_297:Schedule input holds only a document name and a tag filter (no sensitive data); the AWS-owned key is sufficient.
   for_each = local.schedules
 
   name                         = "${var.name_prefix}-office-hours-${each.key}"
