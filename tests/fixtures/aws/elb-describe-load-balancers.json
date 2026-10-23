@@ -1,0 +1,18 @@
+{
+  "LoadBalancerDescriptions": [
+    {
+      "LoadBalancerName": "clb-legacy-shop",
+      "DNSName": "clb-legacy-shop-1122334455.us-east-1.elb.amazonaws.com",
+      "Scheme": "internet-facing",
+      "Instances": [],
+      "CreatedTime": "2019-08-12T13:20:00.000000+00:00"
+    },
+    {
+      "LoadBalancerName": "clb-intranet",
+      "DNSName": "internal-clb-intranet-5566778899.us-east-1.elb.amazonaws.com",
+      "Scheme": "internal",
+      "Instances": [{ "InstanceId": "i-0aaa00000000000004" }],
+      "CreatedTime": "2020-02-03T09:00:00.000000+00:00"
+    }
+  ]
+}

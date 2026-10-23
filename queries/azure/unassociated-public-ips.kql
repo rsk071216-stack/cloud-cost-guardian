@@ -1,0 +1,17 @@
+// rule_id: az-unassociated-public-ip
+// What it finds: Public IP addresses not associated with a NIC, load balancer, NAT gateway or gateway.
+// Why it costs money: Standard SKU and static public IPs are billed hourly while allocated, even when unused.
+//   Basic dynamic IPs release their address when unassociated and are excluded (Basic SKU retired Sep 2025).
+// Typical saving: About $3.65 per address per month.
+// Remediation: Check DNS records, firewall allow-lists and partner allow-lists that reference the address,
+//   then delete it. Keep only the addresses you can name an owner for.
+// Risk: Low. The exact address cannot be recovered once released, which matters if third parties allow-list it.
+// Output columns: id, name, location, resourceGroup, subscriptionId, skuName, allocation, ipAddress
+Resources
+| where type =~ 'microsoft.network/publicipaddresses'
+| where isempty(properties.ipConfiguration)
+| where isempty(properties.natGateway)
+| extend skuName = tostring(sku.name), allocation = tostring(properties.publicIPAllocationMethod)
+| where not(skuName =~ 'Basic' and allocation =~ 'Dynamic')
+| project id, name, location, resourceGroup, subscriptionId, skuName, allocation,
+    ipAddress = tostring(properties.ipAddress)

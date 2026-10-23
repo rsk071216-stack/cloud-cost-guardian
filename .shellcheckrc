@@ -1,0 +1,5 @@
+# ShellCheck configuration for the whole repository
+source-path=SCRIPTDIR
+external-sources=true
+# jq programs are single-quoted on purpose: $vars belong to jq, not to the shell.
+disable=SC2016

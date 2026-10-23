@@ -1,0 +1,97 @@
+{
+  "_meta": {
+    "currency": "USD",
+    "hours_per_month": 730,
+    "reviewed": "2026-10",
+    "basis": "Approximate public pay-as-you-go list prices (Azure East US, Linux; AWS us-east-1), 730 hours per month. Estimates for prioritisation only: negotiated rates, reservations, savings plans and regional differences change the real number."
+  },
+  "azure": {
+    "managed_disk_per_gb_month": {
+      "Premium_LRS": 0.135,
+      "Premium_ZRS": 0.169,
+      "PremiumV2_LRS": 0.081,
+      "StandardSSD_LRS": 0.075,
+      "StandardSSD_ZRS": 0.094,
+      "Standard_LRS": 0.045,
+      "UltraSSD_LRS": 0.12,
+      "default": 0.1
+    },
+    "snapshot_per_gb_month": {
+      "Standard_LRS": 0.05,
+      "Standard_ZRS": 0.0625,
+      "Premium_LRS": 0.12,
+      "default": 0.05
+    },
+    "public_ip_month": 3.65,
+    "load_balancer_standard_first5_rules_month": 18.25,
+    "load_balancer_standard_extra_rule_month": 7.3,
+    "app_service_plan_month": {
+      "B1": 13.14,
+      "B2": 25.55,
+      "B3": 51.1,
+      "S1": 69.35,
+      "S2": 138.7,
+      "S3": 277.4,
+      "P1v2": 73.0,
+      "P2v2": 146.0,
+      "P3v2": 292.0,
+      "P0v3": 56.94,
+      "P1v3": 113.88,
+      "P2v3": 227.76,
+      "P3v3": 455.52,
+      "P1mv3": 160.6,
+      "default": 70.0
+    },
+    "vm_month": {
+      "Standard_A2_v2": 66.43,
+      "Standard_A4_v2": 139.43,
+      "Standard_D2_v2": 83.22,
+      "Standard_D3_v2": 166.44,
+      "Standard_D4_v2": 332.88,
+      "Standard_DS2_v2": 106.58,
+      "Standard_DS3_v2": 213.16,
+      "Standard_D2s_v3": 70.08,
+      "Standard_D4s_v3": 140.16,
+      "Standard_D8s_v3": 280.32,
+      "Standard_E4s_v3": 183.96,
+      "Standard_E8s_v3": 367.92,
+      "Standard_F4s": 145.27,
+      "Standard_D2s_v5": 70.08,
+      "Standard_D4s_v5": 140.16,
+      "Standard_D8s_v5": 280.32,
+      "Standard_B2ms": 60.74
+    },
+    "legacy_vm_saving_ratio": 0.15
+  },
+  "aws": {
+    "ebs_gb_month": {
+      "gp2": 0.1,
+      "gp3": 0.08,
+      "io1": 0.125,
+      "io2": 0.125,
+      "st1": 0.045,
+      "sc1": 0.015,
+      "standard": 0.05
+    },
+    "ebs_iops_month": {
+      "gp3": 0.005,
+      "io1": 0.065,
+      "io2": 0.065
+    },
+    "gp3_throughput_mibps_month": 0.04,
+    "gp3_free_iops": 3000,
+    "gp3_free_throughput_mibps": 125,
+    "snapshot_gb_month": {
+      "standard": 0.05,
+      "archive": 0.0125
+    },
+    "public_ipv4_month": 3.65,
+    "nat_gateway_month": 32.85,
+    "load_balancer_month": {
+      "application": 16.43,
+      "network": 16.43,
+      "gateway": 9.13,
+      "classic": 18.25
+    }
+  }
+}

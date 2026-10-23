@@ -1,0 +1,17 @@
+// rule_id: az-legacy-vm-sku
+// What it finds: Running VMs on older generations (A, Av2, Dv2, DSv2, Dv3/Dsv3, Ev3/Esv3, Fs, G, Basic)
+//   that have current-generation successors (Dsv5/Dasv6, Esv5/Easv6, Fasv6, Bsv2).
+// Why it costs money: Older families cost the same or more per vCPU than v5/v6 sizes while delivering less
+//   performance, so the same workload runs on fewer or cheaper cores after a resize.
+// Typical saving: 10-20% of the VM compute cost (the report uses a conservative 15%).
+// Remediation: Resize during a maintenance window (a resize reboots the VM). Validate performance and check
+//   that the target size supports the disk controller, accelerated networking and availability zone in use.
+// Risk: Medium. Requires a reboot and a compatibility check, especially for Gen1 images.
+// Output columns: id, name, location, resourceGroup, subscriptionId, vmSize, powerState
+Resources
+| where type =~ 'microsoft.compute/virtualmachines'
+| extend vmSize = tostring(properties.hardwareProfile.vmSize),
+    powerState = tostring(properties.extended.instanceView.powerState.code)
+| where powerState =~ 'PowerState/running'
+| where vmSize matches regex @'(?i)^(Basic_A\d+|Standard_A\d+m?(_v2)?|Standard_DS?\d+(_v2)?|Standard_D\d+s?_v3|Standard_E\d+s?_v3|Standard_F\d+s?|Standard_GS?\d+)$'
+| project id, name, location, resourceGroup, subscriptionId, vmSize, powerState

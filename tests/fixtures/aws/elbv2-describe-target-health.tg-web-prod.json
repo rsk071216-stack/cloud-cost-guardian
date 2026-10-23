@@ -1,0 +1,6 @@
+{
+  "TargetHealthDescriptions": [
+    { "Target": { "Id": "i-0aaa00000000000001", "Port": 8080 }, "HealthCheckPort": "8080", "TargetHealth": { "State": "healthy" } },
+    { "Target": { "Id": "i-0aaa00000000000004", "Port": 8080 }, "HealthCheckPort": "8080", "TargetHealth": { "State": "healthy" } }
+  ]
+}

@@ -1,0 +1,9 @@
+# Infracost project list used by .github/workflows/infracost.yml
+version: 0.1
+projects:
+  - path: terraform/azure-guardrails
+    name: azure-guardrails
+  - path: terraform/aws-guardrails
+    name: aws-guardrails
+  - path: terraform/aws-scanner-access
+    name: aws-scanner-access

@@ -1,0 +1,1029 @@
+{
+  "schema_version": "1.0",
+  "tool": {
+    "name": "cloud-cost-guardian",
+    "version": "1.0.0"
+  },
+  "generated_at": "2026-10-19T06:00:00Z",
+  "providers": [
+    "azure",
+    "aws"
+  ],
+  "scope": {
+    "azure_subscriptions": [
+      "11111111-2222-3333-4444-555555555555",
+      "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+    ],
+    "aws_account": "123456789012",
+    "aws_regions": [
+      "us-east-1"
+    ]
+  },
+  "price_basis": "Approximate public pay-as-you-go list prices (Azure East US, Linux; AWS us-east-1), 730 hours per month. Estimates for prioritisation only: negotiated rates, reservations, savings plans and regional differences change the real number.",
+  "rule_executions": 16,
+  "rules_failed": [],
+  "summary": {
+    "estimated_monthly_saving": 1590.03,
+    "estimated_annual_saving": 19080.36,
+    "overlap_removed": 0,
+    "findings_total": 39,
+    "findings_with_saving": 33,
+    "governance_findings": 6,
+    "by_severity": {
+      "high": 11,
+      "medium": 23,
+      "low": 5
+    },
+    "by_provider": {
+      "aws": {
+        "findings": 19,
+        "monthly_saving": 612.92
+      },
+      "azure": {
+        "findings": 20,
+        "monthly_saving": 977.11
+      }
+    },
+    "by_rule": [
+      {
+        "rule_id": "az-stopped-vm-billed",
+        "provider": "azure",
+        "title": "Stopped or deallocated VM still incurring cost",
+        "category": "waste",
+        "risk": "low/medium",
+        "findings": 2,
+        "monthly_saving": 364.8
+      },
+      {
+        "rule_id": "aws-unattached-ebs",
+        "provider": "aws",
+        "title": "Unattached EBS volume",
+        "category": "waste",
+        "risk": "medium",
+        "findings": 3,
+        "monthly_saving": 343
+      },
+      {
+        "rule_id": "az-empty-app-service-plan",
+        "provider": "azure",
+        "title": "App Service plan with no apps",
+        "category": "waste",
+        "risk": "low",
+        "findings": 2,
+        "monthly_saving": 297.11
+      },
+      {
+        "rule_id": "az-unattached-disk",
+        "provider": "azure",
+        "title": "Unattached managed disk",
+        "category": "waste",
+        "risk": "medium",
+        "findings": 3,
+        "monthly_saving": 163.2
+      },
+      {
+        "rule_id": "aws-old-ebs-snapshot",
+        "provider": "aws",
+        "title": "EBS snapshot older than 90 days",
+        "category": "waste",
+        "risk": "high/medium",
+        "findings": 4,
+        "monthly_saving": 105
+      },
+      {
+        "rule_id": "az-old-snapshot",
+        "provider": "azure",
+        "title": "Snapshot older than 90 days",
+        "category": "waste",
+        "risk": "medium",
+        "findings": 2,
+        "monthly_saving": 66.56
+      },
+      {
+        "rule_id": "az-legacy-vm-sku",
+        "provider": "azure",
+        "title": "Legacy-generation VM size",
+        "category": "rightsizing",
+        "risk": "medium",
+        "findings": 3,
+        "monthly_saving": 59.89
+      },
+      {
+        "rule_id": "aws-unused-load-balancer",
+        "provider": "aws",
+        "title": "Load balancer with no registered targets",
+        "category": "waste",
+        "risk": "low",
+        "findings": 3,
+        "monthly_saving": 51.11
+      },
+      {
+        "rule_id": "aws-gp2-to-gp3",
+        "provider": "aws",
+        "title": "gp2 volume that should be gp3",
+        "category": "rightsizing",
+        "risk": "low",
+        "findings": 4,
+        "monthly_saving": 37.16
+      },
+      {
+        "rule_id": "aws-stopped-ec2-volumes",
+        "provider": "aws",
+        "title": "Stopped EC2 instance still paying for EBS",
+        "category": "waste",
+        "risk": "medium",
+        "findings": 2,
+        "monthly_saving": 36.5
+      },
+      {
+        "rule_id": "aws-idle-nat-gateway",
+        "provider": "aws",
+        "title": "Idle NAT gateway",
+        "category": "waste",
+        "risk": "medium",
+        "findings": 1,
+        "monthly_saving": 32.85
+      },
+      {
+        "rule_id": "az-idle-load-balancer",
+        "provider": "azure",
+        "title": "Standard load balancer with no backends",
+        "category": "waste",
+        "risk": "low",
+        "findings": 1,
+        "monthly_saving": 18.25
+      },
+      {
+        "rule_id": "aws-unused-eip",
+        "provider": "aws",
+        "title": "Unassociated Elastic IP",
+        "category": "waste",
+        "risk": "low",
+        "findings": 2,
+        "monthly_saving": 7.3
+      },
+      {
+        "rule_id": "az-unassociated-public-ip",
+        "provider": "azure",
+        "title": "Unassociated public IP address",
+        "category": "waste",
+        "risk": "low",
+        "findings": 2,
+        "monthly_saving": 7.3
+      },
+      {
+        "rule_id": "az-orphaned-nic",
+        "provider": "azure",
+        "title": "Orphaned network interface",
+        "category": "hygiene",
+        "risk": "low",
+        "findings": 2,
+        "monthly_saving": 0
+      },
+      {
+        "rule_id": "az-untagged-resource",
+        "provider": "azure",
+        "title": "Billable resource missing cost-allocation tags",
+        "category": "governance",
+        "risk": "low",
+        "findings": 3,
+        "monthly_saving": 0
+      }
+    ]
+  },
+  "findings": [
+    {
+      "provider": "aws",
+      "rule_id": "aws-unattached-ebs",
+      "title": "Unattached EBS volume",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "vol-0a1b2c3d4e5f60002",
+      "resource_name": "db-migration-temp",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 285,
+      "currency": "USD",
+      "recommendation": "Snapshot if needed, then delete this unattached 200 GiB io1 volume.",
+      "risk": "medium",
+      "evidence": {
+        "volume_type": "io1",
+        "size_gb": 200,
+        "iops": 4000,
+        "throughput": 0,
+        "create_time": "2025-08-02T07:12:09.003000+00:00",
+        "availability_zone": "us-east-1b"
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-empty-app-service-plan",
+      "title": "App Service plan with no apps",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-marketing-prod/providers/Microsoft.Web/serverfarms/asp-marketing-prod",
+      "resource_name": "asp-marketing-prod",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 227.76,
+      "currency": "USD",
+      "recommendation": "Delete the empty P1v3 App Service plan (2 worker(s)) or consolidate apps onto a shared plan.",
+      "risk": "low",
+      "evidence": {
+        "sku": "P1v3",
+        "tier": "PremiumV3",
+        "workers": 2
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-stopped-vm-billed",
+      "title": "Stopped or deallocated VM still incurring cost",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourcegroups/rg-sap-sandbox/providers/microsoft.compute/virtualmachines/vm-sap-sandbox",
+      "resource_name": "vm-sap-sandbox",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 207.36,
+      "currency": "USD",
+      "recommendation": "VM is deallocated but its 2 disk(s) still bill. Snapshot and delete if retired, or downgrade disks to Standard HDD while parked.",
+      "risk": "medium",
+      "evidence": {
+        "vm_size": "Standard_E8s_v3",
+        "power_state": "PowerState/deallocated",
+        "disk_count": 2,
+        "disk_gb": 1536,
+        "compute_cost_included": false
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-stopped-vm-billed",
+      "title": "Stopped or deallocated VM still incurring cost",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourcegroups/rg-devops/providers/microsoft.compute/virtualmachines/vm-build-agent-02",
+      "resource_name": "vm-build-agent-02",
+      "region": "westeurope",
+      "account": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "monthly_cost_estimate": 157.44,
+      "currency": "USD",
+      "recommendation": "VM is stopped but NOT deallocated, so compute is still billed. Deallocate it (az vm deallocate) or delete it.",
+      "risk": "low",
+      "evidence": {
+        "vm_size": "Standard_D4s_v3",
+        "power_state": "PowerState/stopped",
+        "disk_count": 1,
+        "disk_gb": 128,
+        "compute_cost_included": true
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-unattached-disk",
+      "title": "Unattached managed disk",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-erp-prod/providers/Microsoft.Compute/disks/vm-erp-legacy-01_DataDisk_0",
+      "resource_name": "vm-erp-legacy-01_DataDisk_0",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 138.24,
+      "currency": "USD",
+      "recommendation": "Snapshot if the data may be needed, then delete this unattached 1024 GB Premium_LRS disk.",
+      "risk": "medium",
+      "evidence": {
+        "sku": "Premium_LRS",
+        "size_gb": 1024,
+        "time_created": "2024-03-14T09:21:07.3015321+00:00",
+        "last_ownership_update": "2025-11-02T16:40:12.1182311+00:00"
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-empty-app-service-plan",
+      "title": "App Service plan with no apps",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-legacy-api/providers/Microsoft.Web/serverfarms/asp-legacy-api",
+      "resource_name": "asp-legacy-api",
+      "region": "northeurope",
+      "account": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "monthly_cost_estimate": 69.35,
+      "currency": "USD",
+      "recommendation": "Delete the empty S1 App Service plan (1 worker(s)) or consolidate apps onto a shared plan.",
+      "risk": "low",
+      "evidence": {
+        "sku": "S1",
+        "tier": "Standard",
+        "workers": 1
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-old-snapshot",
+      "title": "Snapshot older than 90 days",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-sql-prod/providers/Microsoft.Compute/snapshots/snap-sqlvm-before-patch-2025",
+      "resource_name": "snap-sqlvm-before-patch-2025",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 51.2,
+      "currency": "USD",
+      "recommendation": "Snapshot is 410 days old. Confirm retention needs, move long-term copies to Azure Backup, then delete.",
+      "risk": "medium",
+      "evidence": {
+        "sku": "Standard_LRS",
+        "size_gb": 1024,
+        "age_days": 410,
+        "incremental": false,
+        "source_resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-sql-prod/providers/Microsoft.Compute/disks/sqlvm01-data-0"
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-old-ebs-snapshot",
+      "title": "EBS snapshot older than 90 days",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "snap-0e00000000000a004",
+      "resource_name": "snap-0e00000000000a004",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 50,
+      "currency": "USD",
+      "recommendation": "Managed by AWS Backup: shorten the backup plan retention instead of deleting manually.",
+      "risk": "high",
+      "evidence": {
+        "volume_id": "vol-0a1b2c3d4e5f60005",
+        "size_gb": 1000,
+        "age_days": 505,
+        "storage_tier": "standard",
+        "ami_backed": false,
+        "backup_managed": true
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-unattached-ebs",
+      "title": "Unattached EBS volume",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "vol-0a1b2c3d4e5f60001",
+      "resource_name": "legacy-reporting-data",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 50,
+      "currency": "USD",
+      "recommendation": "Snapshot if needed, then delete this unattached 500 GiB gp2 volume.",
+      "risk": "medium",
+      "evidence": {
+        "volume_type": "gp2",
+        "size_gb": 500,
+        "iops": 1500,
+        "throughput": 0,
+        "create_time": "2024-11-18T10:21:43.512000+00:00",
+        "availability_zone": "us-east-1a"
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-legacy-vm-sku",
+      "title": "Legacy-generation VM size",
+      "category": "rightsizing",
+      "severity": "medium",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-erp-prod/providers/Microsoft.Compute/virtualMachines/vm-erp-app-01",
+      "resource_name": "vm-erp-app-01",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 49.93,
+      "currency": "USD",
+      "recommendation": "Resize Standard_D4_v2 to a current-generation Dsv5/Dasv6 size during a maintenance window.",
+      "risk": "medium",
+      "evidence": {
+        "vm_size": "Standard_D4_v2",
+        "list_price_month": 332.88,
+        "assumed_saving_ratio": 0.15
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-idle-nat-gateway",
+      "title": "Idle NAT gateway",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "nat-0c00000000000a001",
+      "resource_name": "dev-nat-az-b",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 32.85,
+      "currency": "USD",
+      "recommendation": "NAT gateway moved 50 MiB in 14 days. Remove it and its routes, or share one gateway per VPC.",
+      "risk": "medium",
+      "evidence": {
+        "vpc_id": "vpc-0d0000000000b0002",
+        "subnet_id": "subnet-0a00000000000d001",
+        "connectivity_type": "public",
+        "bytes_out": 52428800,
+        "lookback_days": 14
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-old-ebs-snapshot",
+      "title": "EBS snapshot older than 90 days",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "snap-0e00000000000a001",
+      "resource_name": "snap-0e00000000000a001",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 25,
+      "currency": "USD",
+      "recommendation": "Snapshot is 646 days old: apply a DLM/AWS Backup retention policy, archive or delete it.",
+      "risk": "medium",
+      "evidence": {
+        "volume_id": "vol-0a1b2c3d4e5f60001",
+        "size_gb": 500,
+        "age_days": 646,
+        "storage_tier": "standard",
+        "ami_backed": false,
+        "backup_managed": false
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-old-ebs-snapshot",
+      "title": "EBS snapshot older than 90 days",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "snap-0e00000000000a005",
+      "resource_name": "erp-archive-2024",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 25,
+      "currency": "USD",
+      "recommendation": "Snapshot is 687 days old: apply a DLM/AWS Backup retention policy, archive or delete it.",
+      "risk": "medium",
+      "evidence": {
+        "volume_id": "vol-ffffffff",
+        "size_gb": 2000,
+        "age_days": 687,
+        "storage_tier": "archive",
+        "ami_backed": false,
+        "backup_managed": false
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-stopped-ec2-volumes",
+      "title": "Stopped EC2 instance still paying for EBS",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "i-0aaa00000000000005",
+      "resource_name": "batch-worker-old",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 22.5,
+      "currency": "USD",
+      "recommendation": "Instance stopped (stop time unknown) with 1 volume(s) billing. Create an AMI and terminate, or schedule with office-hours start/stop.",
+      "risk": "medium",
+      "evidence": {
+        "instance_type": "r5.2xlarge",
+        "stopped_since": "",
+        "stopped_days": null,
+        "volume_ids": [
+          "vol-0a1b2c3d4e5f60010"
+        ],
+        "volume_gb": 500
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-gp2-to-gp3",
+      "title": "gp2 volume that should be gp3",
+      "category": "rightsizing",
+      "severity": "medium",
+      "resource_id": "vol-0a1b2c3d4e5f60005",
+      "resource_name": "api-prod-01-data",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 20,
+      "currency": "USD",
+      "recommendation": "Modify to gp3 online: aws ec2 modify-volume --volume-id vol-0a1b2c3d4e5f60005 --volume-type gp3 --iops 6000 --throughput 250",
+      "risk": "low",
+      "evidence": {
+        "size_gb": 2000,
+        "gp2_baseline_iops": 6000,
+        "attached_to": "i-0aaa00000000000001"
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-unattached-disk",
+      "title": "Unattached managed disk",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/mc_rg-aks-dev_aks-dev_westeurope/providers/Microsoft.Compute/disks/pvc-3f9c1e2a-7b44-4c1e-9d0a-2f6a1c9e8b10",
+      "resource_name": "pvc-3f9c1e2a-7b44-4c1e-9d0a-2f6a1c9e8b10",
+      "region": "westeurope",
+      "account": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "monthly_cost_estimate": 19.2,
+      "currency": "USD",
+      "recommendation": "Snapshot if the data may be needed, then delete this unattached 256 GB StandardSSD_LRS disk.",
+      "risk": "medium",
+      "evidence": {
+        "sku": "StandardSSD_LRS",
+        "size_gb": 256,
+        "time_created": "2025-06-30T11:02:44.0811520+00:00",
+        "last_ownership_update": "2026-02-18T08:15:30.5520112+00:00"
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-unused-load-balancer",
+      "title": "Load balancer with no registered targets",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "clb-legacy-shop",
+      "resource_name": "clb-legacy-shop",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 18.25,
+      "currency": "USD",
+      "recommendation": "Classic load balancer has 0 target group(s) and 0 registered target(s). Check DNS, then delete it.",
+      "risk": "low",
+      "evidence": {
+        "type": "classic",
+        "scheme": "internet-facing",
+        "dns_name": "clb-legacy-shop-1122334455.us-east-1.elb.amazonaws.com",
+        "target_groups": 0,
+        "created": "2019-08-12T13:20:00.000000+00:00"
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-idle-load-balancer",
+      "title": "Standard load balancer with no backends",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-ftp-legacy/providers/Microsoft.Network/loadBalancers/lbi-old-ftp",
+      "resource_name": "lbi-old-ftp",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 18.25,
+      "currency": "USD",
+      "recommendation": "Standard load balancer has 2 rule(s) but empty backend pools. Delete it or remove its rules.",
+      "risk": "low",
+      "evidence": {
+        "sku": "Standard",
+        "rule_count": 2,
+        "backend_pool_count": 1
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-unused-load-balancer",
+      "title": "Load balancer with no registered targets",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/alb-orders-old/50dc6c495c0c9188",
+      "resource_name": "alb-orders-old",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 16.43,
+      "currency": "USD",
+      "recommendation": "Application load balancer has 0 target group(s) and 0 registered target(s). Check DNS, then delete it.",
+      "risk": "low",
+      "evidence": {
+        "type": "application",
+        "scheme": "internet-facing",
+        "dns_name": "alb-orders-old-1234567890.us-east-1.elb.amazonaws.com",
+        "target_groups": 0,
+        "created": "2024-04-09T15:02:11.420000+00:00"
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-unused-load-balancer",
+      "title": "Load balancer with no registered targets",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/net/nlb-legacy-ingest/7a3f2b1c9d8e6f50",
+      "resource_name": "nlb-legacy-ingest",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 16.43,
+      "currency": "USD",
+      "recommendation": "Network load balancer has 1 target group(s) and 0 registered target(s). Check DNS, then delete it.",
+      "risk": "low",
+      "evidence": {
+        "type": "network",
+        "scheme": "internal",
+        "dns_name": "nlb-legacy-ingest-7a3f2b1c9d8e6f50.elb.us-east-1.amazonaws.com",
+        "target_groups": 1,
+        "created": "2023-11-21T08:44:00.000000+00:00"
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-old-snapshot",
+      "title": "Snapshot older than 90 days",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-web-prod/providers/Microsoft.Compute/snapshots/snap-web01-os",
+      "resource_name": "snap-web01-os",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 15.36,
+      "currency": "USD",
+      "recommendation": "Snapshot is 200 days old. Confirm retention needs, move long-term copies to Azure Backup, then delete.",
+      "risk": "medium",
+      "evidence": {
+        "sku": "Premium_LRS",
+        "size_gb": 128,
+        "age_days": 200,
+        "incremental": false,
+        "source_resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-web-prod/providers/Microsoft.Compute/disks/web01-osdisk"
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-gp2-to-gp3",
+      "title": "gp2 volume that should be gp3",
+      "category": "rightsizing",
+      "severity": "medium",
+      "resource_id": "vol-0a1b2c3d4e5f60004",
+      "resource_name": "api-prod-01-root",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 15,
+      "currency": "USD",
+      "recommendation": "Modify to gp3 online: aws ec2 modify-volume --volume-id vol-0a1b2c3d4e5f60004 --volume-type gp3 --iops 3000 --throughput 250",
+      "risk": "low",
+      "evidence": {
+        "size_gb": 1000,
+        "gp2_baseline_iops": 3000,
+        "attached_to": "i-0aaa00000000000001"
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-stopped-ec2-volumes",
+      "title": "Stopped EC2 instance still paying for EBS",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "i-0aaa00000000000002",
+      "resource_name": "qa-selenium-runner",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 14,
+      "currency": "USD",
+      "recommendation": "Instance stopped for 138 days with 2 volume(s) billing. Create an AMI and terminate, or schedule with office-hours start/stop.",
+      "risk": "medium",
+      "evidence": {
+        "instance_type": "t3.large",
+        "stopped_since": "2026-06-02 18:04:12 UTC",
+        "stopped_days": 138,
+        "volume_ids": [
+          "vol-0a1b2c3d4e5f60006",
+          "vol-0a1b2c3d4e5f60007"
+        ],
+        "volume_gb": 150
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-legacy-vm-sku",
+      "title": "Legacy-generation VM size",
+      "category": "rightsizing",
+      "severity": "medium",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-network-prod/providers/Microsoft.Compute/virtualMachines/vm-jumpbox",
+      "resource_name": "vm-jumpbox",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 9.96,
+      "currency": "USD",
+      "recommendation": "Resize Standard_A2_v2 to a current-generation Bsv2 (burstable) or Dsv5 size during a maintenance window.",
+      "risk": "medium",
+      "evidence": {
+        "vm_size": "Standard_A2_v2",
+        "list_price_month": 66.43,
+        "assumed_saving_ratio": 0.15
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-unattached-ebs",
+      "title": "Unattached EBS volume",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "vol-0a1b2c3d4e5f60003",
+      "resource_name": "vol-0a1b2c3d4e5f60003",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 8,
+      "currency": "USD",
+      "recommendation": "Snapshot if needed, then delete this unattached 100 GiB gp3 volume.",
+      "risk": "medium",
+      "evidence": {
+        "volume_type": "gp3",
+        "size_gb": 100,
+        "iops": 3000,
+        "throughput": 125,
+        "create_time": "2026-05-20T13:40:00.000000+00:00",
+        "availability_zone": "us-east-1a"
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-unattached-disk",
+      "title": "Unattached managed disk",
+      "category": "waste",
+      "severity": "high",
+      "resource_id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-restore-test/providers/Microsoft.Compute/disks/restore-test-osdisk",
+      "resource_name": "restore-test-osdisk",
+      "region": "northeurope",
+      "account": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "monthly_cost_estimate": 5.76,
+      "currency": "USD",
+      "recommendation": "Snapshot if the data may be needed, then delete this unattached 128 GB Standard_LRS disk.",
+      "risk": "medium",
+      "evidence": {
+        "sku": "Standard_LRS",
+        "size_gb": 128,
+        "time_created": "2025-09-09T14:55:01.9921004+00:00",
+        "last_ownership_update": ""
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-old-ebs-snapshot",
+      "title": "EBS snapshot older than 90 days",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "snap-0e00000000000a002",
+      "resource_name": "snap-0e00000000000a002",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 5,
+      "currency": "USD",
+      "recommendation": "Backs an AMI (352 days old): deregister the AMI if unused, then delete the snapshot.",
+      "risk": "high",
+      "evidence": {
+        "volume_id": "vol-0a1b2c3d4e5f60009",
+        "size_gb": 100,
+        "age_days": 352,
+        "storage_tier": "standard",
+        "ami_backed": true,
+        "backup_managed": false
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-unused-eip",
+      "title": "Unassociated Elastic IP",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "eipalloc-0b00000000000a002",
+      "resource_name": "vpn-old",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 3.65,
+      "currency": "USD",
+      "recommendation": "Release unassociated Elastic IP 44.205.7.130 after checking DNS and allow-lists.",
+      "risk": "low",
+      "evidence": {
+        "public_ip": "44.205.7.130",
+        "domain": "vpc",
+        "network_border_group": "us-east-1"
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-unused-eip",
+      "title": "Unassociated Elastic IP",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "eipalloc-0b00000000000a003",
+      "resource_name": "eipalloc-0b00000000000a003",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 3.65,
+      "currency": "USD",
+      "recommendation": "Release unassociated Elastic IP 52.4.118.9 after checking DNS and allow-lists.",
+      "risk": "low",
+      "evidence": {
+        "public_ip": "52.4.118.9",
+        "domain": "vpc",
+        "network_border_group": "us-east-1"
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-unassociated-public-ip",
+      "title": "Unassociated public IP address",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-network-prod/providers/Microsoft.Network/publicIPAddresses/pip-old-vpn-gw",
+      "resource_name": "pip-old-vpn-gw",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 3.65,
+      "currency": "USD",
+      "recommendation": "Release the unassociated Standard Static public IP 20.31.104.17 after checking DNS and allow-lists.",
+      "risk": "low",
+      "evidence": {
+        "sku": "Standard",
+        "allocation": "Static",
+        "ip_address": "20.31.104.17"
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-unassociated-public-ip",
+      "title": "Unassociated public IP address",
+      "category": "waste",
+      "severity": "medium",
+      "resource_id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-sandbox/providers/Microsoft.Network/publicIPAddresses/pip-test-lb",
+      "resource_name": "pip-test-lb",
+      "region": "northeurope",
+      "account": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "monthly_cost_estimate": 3.65,
+      "currency": "USD",
+      "recommendation": "Release the unassociated Standard Static public IP 52.169.12.201 after checking DNS and allow-lists.",
+      "risk": "low",
+      "evidence": {
+        "sku": "Standard",
+        "allocation": "Static",
+        "ip_address": "52.169.12.201"
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-gp2-to-gp3",
+      "title": "gp2 volume that should be gp3",
+      "category": "rightsizing",
+      "severity": "medium",
+      "resource_id": "vol-0a1b2c3d4e5f60006",
+      "resource_name": "vol-0a1b2c3d4e5f60006",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 2,
+      "currency": "USD",
+      "recommendation": "Modify to gp3 online: aws ec2 modify-volume --volume-id vol-0a1b2c3d4e5f60006 --volume-type gp3",
+      "risk": "low",
+      "evidence": {
+        "size_gb": 100,
+        "gp2_baseline_iops": 300,
+        "attached_to": "i-0aaa00000000000002"
+      }
+    },
+    {
+      "provider": "aws",
+      "rule_id": "aws-gp2-to-gp3",
+      "title": "gp2 volume that should be gp3",
+      "category": "rightsizing",
+      "severity": "medium",
+      "resource_id": "vol-0a1b2c3d4e5f60009",
+      "resource_name": "vol-0a1b2c3d4e5f60009",
+      "region": "us-east-1",
+      "account": "123456789012",
+      "monthly_cost_estimate": 0.16,
+      "currency": "USD",
+      "recommendation": "Modify to gp3 online: aws ec2 modify-volume --volume-id vol-0a1b2c3d4e5f60009 --volume-type gp3",
+      "risk": "low",
+      "evidence": {
+        "size_gb": 8,
+        "gp2_baseline_iops": 100,
+        "attached_to": "i-0aaa00000000000004"
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-legacy-vm-sku",
+      "title": "Legacy-generation VM size",
+      "category": "rightsizing",
+      "severity": "medium",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-bi-prod/providers/Microsoft.Compute/virtualMachines/vm-reporting",
+      "resource_name": "vm-reporting",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 0,
+      "currency": "USD",
+      "recommendation": "Resize Standard_DS13_v2 to a current-generation Dsv5/Dasv6 size during a maintenance window (size not in price sheet; saving not estimated).",
+      "risk": "medium",
+      "evidence": {
+        "vm_size": "Standard_DS13_v2",
+        "list_price_month": null,
+        "assumed_saving_ratio": 0.15
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-orphaned-nic",
+      "title": "Orphaned network interface",
+      "category": "hygiene",
+      "severity": "low",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-crm-old/providers/Microsoft.Network/networkInterfaces/vm-old-crm-nic01",
+      "resource_name": "vm-old-crm-nic01",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 0,
+      "currency": "USD",
+      "recommendation": "Delete the orphaned NIC and review its billed public IP.",
+      "risk": "low",
+      "evidence": {
+        "private_ip": "10.20.4.11",
+        "has_public_ip": true
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-orphaned-nic",
+      "title": "Orphaned network interface",
+      "category": "hygiene",
+      "severity": "low",
+      "resource_id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-sandbox/providers/Microsoft.Network/networkInterfaces/nic-test-temp",
+      "resource_name": "nic-test-temp",
+      "region": "northeurope",
+      "account": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "monthly_cost_estimate": 0,
+      "currency": "USD",
+      "recommendation": "Delete the orphaned NIC.",
+      "risk": "low",
+      "evidence": {
+        "private_ip": "10.90.1.37",
+        "has_public_ip": false
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-untagged-resource",
+      "title": "Billable resource missing cost-allocation tags",
+      "category": "governance",
+      "severity": "low",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-erp-prod/providers/Microsoft.Compute/virtualMachines/vm-erp-app-01",
+      "resource_name": "vm-erp-app-01",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 0,
+      "currency": "USD",
+      "recommendation": "Add missing tag(s): owner, cost-center. Enforce with Azure Policy tag inheritance.",
+      "risk": "low",
+      "evidence": {
+        "type": "microsoft.compute/virtualmachines",
+        "missing_tags": [
+          "owner",
+          "cost-center"
+        ]
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-untagged-resource",
+      "title": "Billable resource missing cost-allocation tags",
+      "category": "governance",
+      "severity": "low",
+      "resource_id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-marketing-prod/providers/Microsoft.Web/serverfarms/asp-marketing-prod",
+      "resource_name": "asp-marketing-prod",
+      "region": "westeurope",
+      "account": "11111111-2222-3333-4444-555555555555",
+      "monthly_cost_estimate": 0,
+      "currency": "USD",
+      "recommendation": "Add missing tag(s): cost-center. Enforce with Azure Policy tag inheritance.",
+      "risk": "low",
+      "evidence": {
+        "type": "microsoft.web/serverfarms",
+        "missing_tags": [
+          "cost-center"
+        ]
+      }
+    },
+    {
+      "provider": "azure",
+      "rule_id": "az-untagged-resource",
+      "title": "Billable resource missing cost-allocation tags",
+      "category": "governance",
+      "severity": "low",
+      "resource_id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-sandbox/providers/Microsoft.Storage/storageAccounts/stsandboxexports01",
+      "resource_name": "stsandboxexports01",
+      "region": "northeurope",
+      "account": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "monthly_cost_estimate": 0,
+      "currency": "USD",
+      "recommendation": "Add missing tag(s): owner, cost-center, environment. Enforce with Azure Policy tag inheritance.",
+      "risk": "low",
+      "evidence": {
+        "type": "microsoft.storage/storageaccounts",
+        "missing_tags": [
+          "owner",
+          "cost-center",
+          "environment"
+        ]
+      }
+    }
+  ]
+}

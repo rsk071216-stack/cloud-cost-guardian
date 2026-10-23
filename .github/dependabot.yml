@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      github-actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
+
+  - package-ecosystem: terraform
+    directories:
+      - /terraform/azure-guardrails
+      - /terraform/aws-guardrails
+      - /terraform/aws-scanner-access
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      terraform-providers:
+        patterns: ["*"]
+    commit-message:
+      prefix: terraform

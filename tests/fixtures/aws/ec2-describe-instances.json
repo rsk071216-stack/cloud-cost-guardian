@@ -1,0 +1,51 @@
+{
+  "Reservations": [
+    {
+      "ReservationId": "r-0f0000000000000a1",
+      "OwnerId": "123456789012",
+      "Instances": [
+        {
+          "InstanceId": "i-0aaa00000000000001",
+          "InstanceType": "m6i.xlarge",
+          "State": { "Code": 16, "Name": "running" },
+          "StateTransitionReason": "",
+          "Tags": [{ "Key": "Name", "Value": "api-prod-01" }]
+        },
+        {
+          "InstanceId": "i-0aaa00000000000002",
+          "InstanceType": "t3.large",
+          "State": { "Code": 80, "Name": "stopped" },
+          "StateTransitionReason": "User initiated (2026-06-02 18:04:12 GMT)",
+          "Tags": [{ "Key": "Name", "Value": "qa-selenium-runner" }]
+        }
+      ]
+    },
+    {
+      "ReservationId": "r-0f0000000000000a2",
+      "OwnerId": "123456789012",
+      "Instances": [
+        {
+          "InstanceId": "i-0aaa00000000000003",
+          "InstanceType": "t3.medium",
+          "State": { "Code": 80, "Name": "stopped" },
+          "StateTransitionReason": "User initiated (2026-10-16 19:00:03 GMT)",
+          "Tags": [{ "Key": "Name", "Value": "dev-office-hours-01" }, { "Key": "Schedule", "Value": "office-hours" }]
+        },
+        {
+          "InstanceId": "i-0aaa00000000000004",
+          "InstanceType": "t2.micro",
+          "State": { "Code": 16, "Name": "running" },
+          "StateTransitionReason": "",
+          "Tags": [{ "Key": "Name", "Value": "bastion" }]
+        },
+        {
+          "InstanceId": "i-0aaa00000000000005",
+          "InstanceType": "r5.2xlarge",
+          "State": { "Code": 80, "Name": "stopped" },
+          "StateTransitionReason": "",
+          "Tags": [{ "Key": "Name", "Value": "batch-worker-old" }]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "Snapshots": [
+    {
+      "Description": "pre-upgrade backup reporting db",
+      "Encrypted": true,
+      "OwnerId": "123456789012",
+      "Progress": "100%",
+      "SnapshotId": "snap-0e00000000000a001",
+      "StartTime": "2025-01-10T09:12:44.000Z",
+      "State": "completed",
+      "VolumeId": "vol-0a1b2c3d4e5f60001",
+      "VolumeSize": 500,
+      "StorageTier": "standard"
+    },
+    {
+      "Description": "Created by CreateImage(i-0aaa00000000000004) for ami-0123456789abcdef0",
+      "Encrypted": false,
+      "OwnerId": "123456789012",
+      "Progress": "100%",
+      "SnapshotId": "snap-0e00000000000a002",
+      "StartTime": "2025-11-01T03:00:00.000000+00:00",
+      "State": "completed",
+      "VolumeId": "vol-0a1b2c3d4e5f60009",
+      "VolumeSize": 100,
+      "StorageTier": "standard"
+    },
+    {
+      "Description": "nightly",
+      "Encrypted": true,
+      "OwnerId": "123456789012",
+      "Progress": "100%",
+      "SnapshotId": "snap-0e00000000000a003",
+      "StartTime": "2026-09-30T01:00:00.000Z",
+      "State": "completed",
+      "VolumeId": "vol-0a1b2c3d4e5f60004",
+      "VolumeSize": 200,
+      "StorageTier": "standard"
+    },
+    {
+      "Description": "This snapshot is created by the AWS Backup service.",
+      "Encrypted": true,
+      "OwnerId": "123456789012",
+      "Progress": "100%",
+      "SnapshotId": "snap-0e00000000000a004",
+      "StartTime": "2025-06-01T05:30:00.000Z",
+      "State": "completed",
+      "VolumeId": "vol-0a1b2c3d4e5f60005",
+      "VolumeSize": 1000,
+      "StorageTier": "standard",
+      "Tags": [{ "Key": "aws:backup:source-resource", "Value": "vol-0a1b2c3d4e5f60005" }]
+    },
+    {
+      "Description": "erp archive 2024",
+      "Encrypted": true,
+      "OwnerId": "123456789012",
+      "Progress": "100%",
+      "SnapshotId": "snap-0e00000000000a005",
+      "StartTime": "2024-12-01T00:00:00.000Z",
+      "State": "completed",
+      "VolumeId": "vol-ffffffff",
+      "VolumeSize": 2000,
+      "StorageTier": "archive",
+      "Tags": [{ "Key": "Name", "Value": "erp-archive-2024" }]
+    }
+  ]
+}

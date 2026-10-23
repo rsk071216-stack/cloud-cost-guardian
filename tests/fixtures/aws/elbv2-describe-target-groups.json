@@ -1,0 +1,32 @@
+{
+  "TargetGroups": [
+    {
+      "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/tg-web-prod/73e2d6bc24d8a067",
+      "TargetGroupName": "tg-web-prod",
+      "Protocol": "HTTP",
+      "Port": 8080,
+      "TargetType": "instance",
+      "LoadBalancerArns": [
+        "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/alb-web-prod/1f2e3d4c5b6a7980"
+      ]
+    },
+    {
+      "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/tg-legacy-ingest/0b1c2d3e4f5a6b7c",
+      "TargetGroupName": "tg-legacy-ingest",
+      "Protocol": "TCP",
+      "Port": 5044,
+      "TargetType": "ip",
+      "LoadBalancerArns": [
+        "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/net/nlb-legacy-ingest/7a3f2b1c9d8e6f50"
+      ]
+    },
+    {
+      "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/tg-orphan/9f8e7d6c5b4a3921",
+      "TargetGroupName": "tg-orphan",
+      "Protocol": "HTTP",
+      "Port": 80,
+      "TargetType": "instance",
+      "LoadBalancerArns": []
+    }
+  ]
+}

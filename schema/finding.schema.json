@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/rsk071216-stack/cloud-cost-guardian/schema/finding.schema.json",
+  "title": "cloud-cost-guardian finding",
+  "description": "One normalised finding. Every rule, on every cloud, produces objects of this shape (see lib/normalise.jq).",
+  "type": "object",
+  "required": [
+    "provider",
+    "rule_id",
+    "resource_id",
+    "region",
+    "monthly_cost_estimate",
+    "recommendation",
+    "risk"
+  ],
+  "properties": {
+    "provider": { "enum": ["azure", "aws"] },
+    "rule_id": { "type": "string", "pattern": "^(az|aws)-[a-z0-9-]+$" },
+    "title": { "type": "string" },
+    "category": { "enum": ["waste", "rightsizing", "governance", "hygiene"] },
+    "severity": { "enum": ["high", "medium", "low"] },
+    "resource_id": { "type": "string", "minLength": 1, "description": "ARM resource ID, AWS resource ID or ARN" },
+    "resource_name": { "type": "string" },
+    "region": { "type": "string" },
+    "account": { "type": "string", "description": "Azure subscription ID or AWS account ID" },
+    "monthly_cost_estimate": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated monthly saving in USD if the recommendation is applied, from list prices in pricing/price-sheet.json"
+    },
+    "currency": { "const": "USD" },
+    "recommendation": { "type": "string", "minLength": 1 },
+    "risk": { "enum": ["low", "medium", "high"], "description": "Risk of applying the recommendation" },
+    "evidence": { "type": "object", "description": "Rule-specific facts that justify the finding" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,17 @@
+// rule_id: az-empty-app-service-plan
+// What it finds: App Service plans on a paid tier that host zero apps.
+// Why it costs money: An App Service plan is billed per worker instance per hour regardless of how many apps
+//   run on it. Plans left behind after apps are deleted or migrated keep billing at full price.
+// Typical saving: $13/month (B1) to $450+/month (P3v3), multiplied by the worker count.
+// Remediation: Delete the empty plan, or consolidate small apps onto one shared plan per environment.
+// Risk: Low. An empty plan has no workload; check deployment pipelines that might target it by name.
+// Output columns: id, name, location, resourceGroup, subscriptionId, skuName, skuTier, workers, kind
+Resources
+| where type =~ 'microsoft.web/serverfarms'
+| where toint(properties.numberOfSites) == 0
+| where tostring(sku.tier) !in~ ('Free', 'Shared', 'Dynamic', 'FlexConsumption')
+| project id, name, location, resourceGroup, subscriptionId,
+    skuName = tostring(sku.name),
+    skuTier = tostring(sku.tier),
+    workers = toint(sku.capacity),
+    kind

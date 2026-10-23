@@ -1,0 +1,27 @@
+{
+  "Addresses": [
+    {
+      "AllocationId": "eipalloc-0b00000000000a001",
+      "AssociationId": "eipassoc-0c00000000000a001",
+      "Domain": "vpc",
+      "InstanceId": "i-0aaa00000000000001",
+      "NetworkInterfaceId": "eni-0d00000000000a001",
+      "PublicIp": "3.210.14.88",
+      "NetworkBorderGroup": "us-east-1",
+      "Tags": [{ "Key": "Name", "Value": "api-prod-01" }]
+    },
+    {
+      "AllocationId": "eipalloc-0b00000000000a002",
+      "Domain": "vpc",
+      "PublicIp": "44.205.7.130",
+      "NetworkBorderGroup": "us-east-1",
+      "Tags": [{ "Key": "Name", "Value": "vpn-old" }]
+    },
+    {
+      "AllocationId": "eipalloc-0b00000000000a003",
+      "Domain": "vpc",
+      "PublicIp": "52.4.118.9",
+      "NetworkBorderGroup": "us-east-1"
+    }
+  ]
+}

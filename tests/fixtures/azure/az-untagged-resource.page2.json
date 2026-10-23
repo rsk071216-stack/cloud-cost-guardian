@@ -1,0 +1,18 @@
+{
+  "count": 1,
+  "data": [
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-marketing-prod/providers/Microsoft.Web/serverfarms/asp-marketing-prod",
+      "name": "asp-marketing-prod",
+      "type": "microsoft.web/serverfarms",
+      "location": "westeurope",
+      "resourceGroup": "rg-marketing-prod",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "missingOwner": false,
+      "missingCostCenter": true,
+      "missingEnvironment": false
+    }
+  ],
+  "skip_token": null,
+  "total_records": 3
+}

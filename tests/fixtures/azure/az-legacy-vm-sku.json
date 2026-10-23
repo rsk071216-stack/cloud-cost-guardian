@@ -1,0 +1,34 @@
+{
+  "count": 3,
+  "data": [
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-erp-prod/providers/Microsoft.Compute/virtualMachines/vm-erp-app-01",
+      "name": "vm-erp-app-01",
+      "location": "westeurope",
+      "resourceGroup": "rg-erp-prod",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "vmSize": "Standard_D4_v2",
+      "powerState": "PowerState/running"
+    },
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-network-prod/providers/Microsoft.Compute/virtualMachines/vm-jumpbox",
+      "name": "vm-jumpbox",
+      "location": "westeurope",
+      "resourceGroup": "rg-network-prod",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "vmSize": "Standard_A2_v2",
+      "powerState": "PowerState/running"
+    },
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-bi-prod/providers/Microsoft.Compute/virtualMachines/vm-reporting",
+      "name": "vm-reporting",
+      "location": "westeurope",
+      "resourceGroup": "rg-bi-prod",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "vmSize": "Standard_DS13_v2",
+      "powerState": "PowerState/running"
+    }
+  ],
+  "skip_token": null,
+  "total_records": 3
+}

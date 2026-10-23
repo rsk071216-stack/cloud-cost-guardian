@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Test double for the AWS CLI. Serves API responses from tests/fixtures/aws/<service>-<operation>.json.
+# Only describe-*, get-* and list-* operations are allowed; anything else fails loudly, so the test
+# suite proves the scanner is read-only. Set CCG_MOCK_AWS_FAIL=<service>:<operation> to simulate an
+# AccessDenied error for one operation.
+set -euo pipefail
+
+FIXTURES="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../fixtures/aws" && pwd)"
+service="${1:-}"
+operation="${2:-}"
+shift 2 || true
+
+if [[ -n "${CCG_MOCK_LOG:-}" ]]; then
+  printf 'aws %s %s\n' "$service" "$operation" >>"$CCG_MOCK_LOG"
+fi
+
+case "$operation" in
+  describe-* | get-* | list-*) ;;
+  *)
+    echo "mock aws: refusing non read-only operation: aws $service $operation" >&2
+    exit 99
+    ;;
+esac
+
+if [[ "${CCG_MOCK_AWS_FAIL:-}" == "$service:$operation" ]]; then
+  echo "An error occurred (UnauthorizedOperation) when calling the $operation operation: You are not authorized to perform this operation." >&2
+  exit 254
+fi
+
+arg_value() { # name -> value of --name in the remaining args
+  local want="$1"
+  set -- "${ARGS[@]}"
+  while [[ $# -gt 0 ]]; do
+    if [[ "$1" == "$want" ]]; then
+      printf '%s' "${2:-}"
+      return 0
+    fi
+    shift
+  done
+  return 1
+}
+ARGS=("$@")
+
+case "$service $operation" in
+  "elbv2 describe-target-health")
+    arn="$(arg_value --target-group-arn)"
+    name="${arn#*:targetgroup/}"
+    name="${name%%/*}"
+    file="$FIXTURES/elbv2-describe-target-health.$name.json"
+    ;;
+  "cloudwatch get-metric-statistics")
+    dims="$(arg_value --dimensions)"
+    file="$FIXTURES/cloudwatch-get-metric-statistics.${dims##*Value=}.json"
+    ;;
+  *)
+    file="$FIXTURES/$service-$operation.json"
+    ;;
+esac
+
+if [[ ! -f "$file" ]]; then
+  echo "mock aws: no fixture $file" >&2
+  exit 3
+fi
+cat "$file"

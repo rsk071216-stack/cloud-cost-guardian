@@ -1,0 +1,27 @@
+{
+  "count": 2,
+  "data": [
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-network-prod/providers/Microsoft.Network/publicIPAddresses/pip-old-vpn-gw",
+      "name": "pip-old-vpn-gw",
+      "location": "westeurope",
+      "resourceGroup": "rg-network-prod",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "skuName": "Standard",
+      "allocation": "Static",
+      "ipAddress": "20.31.104.17"
+    },
+    {
+      "id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-sandbox/providers/Microsoft.Network/publicIPAddresses/pip-test-lb",
+      "name": "pip-test-lb",
+      "location": "northeurope",
+      "resourceGroup": "rg-sandbox",
+      "subscriptionId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "skuName": "Standard",
+      "allocation": "Static",
+      "ipAddress": "52.169.12.201"
+    }
+  ],
+  "skip_token": null,
+  "total_records": 2
+}

@@ -1,0 +1,34 @@
+{
+  "LoadBalancers": [
+    {
+      "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/alb-orders-old/50dc6c495c0c9188",
+      "DNSName": "alb-orders-old-1234567890.us-east-1.elb.amazonaws.com",
+      "CreatedTime": "2024-04-09T15:02:11.420000+00:00",
+      "LoadBalancerName": "alb-orders-old",
+      "Scheme": "internet-facing",
+      "VpcId": "vpc-0d0000000000a0001",
+      "State": { "Code": "active" },
+      "Type": "application"
+    },
+    {
+      "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/net/nlb-legacy-ingest/7a3f2b1c9d8e6f50",
+      "DNSName": "nlb-legacy-ingest-7a3f2b1c9d8e6f50.elb.us-east-1.amazonaws.com",
+      "CreatedTime": "2023-11-21T08:44:00.000000+00:00",
+      "LoadBalancerName": "nlb-legacy-ingest",
+      "Scheme": "internal",
+      "VpcId": "vpc-0d0000000000a0001",
+      "State": { "Code": "active" },
+      "Type": "network"
+    },
+    {
+      "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/alb-web-prod/1f2e3d4c5b6a7980",
+      "DNSName": "alb-web-prod-987654321.us-east-1.elb.amazonaws.com",
+      "CreatedTime": "2024-01-15T10:00:00.000000+00:00",
+      "LoadBalancerName": "alb-web-prod",
+      "Scheme": "internet-facing",
+      "VpcId": "vpc-0d0000000000a0001",
+      "State": { "Code": "active" },
+      "Type": "application"
+    }
+  ]
+}

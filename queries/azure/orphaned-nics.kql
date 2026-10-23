@@ -1,0 +1,17 @@
+// rule_id: az-orphaned-nic
+// What it finds: Network interfaces not attached to a VM, private endpoint or private link service.
+// Why it costs money: NICs themselves are free, but orphaned NICs keep private IPs reserved, often keep a
+//   public IP associated (which IS billed) and clutter subnets, which slows down every cleanup and audit.
+// Typical saving: No direct saving; frequently unlocks a billed public IP or unblocks subnet changes.
+// Remediation: Delete the NIC after confirming no automation (scale set, template, DR runbook) reattaches it.
+// Risk: Low.
+// Output columns: id, name, location, resourceGroup, subscriptionId, privateIp, hasPublicIp
+Resources
+| where type =~ 'microsoft.network/networkinterfaces'
+| where isnull(properties.virtualMachine)
+| where isnull(properties.privateEndpoint)
+| where isnull(properties.privateLinkService)
+| extend ipcfg = tostring(properties.ipConfigurations)
+| project id, name, location, resourceGroup, subscriptionId,
+    privateIp = tostring(properties.ipConfigurations[0].properties.privateIPAddress),
+    hasPublicIp = ipcfg contains '"publicIPAddress"'

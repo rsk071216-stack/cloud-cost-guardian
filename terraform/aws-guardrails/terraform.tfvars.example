@@ -1,0 +1,11 @@
+region             = "us-east-1"
+alert_emails       = ["finance@example.com", "platform-team@example.com"]
+monthly_budget_usd = 5000
+
+# The account already has a default AWS-services anomaly monitor? Reuse it:
+# create_service_anomaly_monitor = false
+# existing_anomaly_monitor_arn   = "arn:aws:ce::123456789012:anomalymonitor/00000000-0000-0000-0000-000000000000"
+
+office_hours_timezone = "Europe/Berlin"
+stop_cron             = "0 19 ? * MON-FRI *"
+start_cron            = "0 8 ? * MON-FRI *"

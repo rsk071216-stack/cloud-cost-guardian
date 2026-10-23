@@ -1,0 +1,40 @@
+{
+  "count": 3,
+  "data": [
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-erp-prod/providers/Microsoft.Compute/disks/vm-erp-legacy-01_DataDisk_0",
+      "name": "vm-erp-legacy-01_DataDisk_0",
+      "location": "westeurope",
+      "resourceGroup": "rg-erp-prod",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "skuName": "Premium_LRS",
+      "sizeGb": 1024,
+      "timeCreated": "2024-03-14T09:21:07.3015321+00:00",
+      "lastOwnershipUpdate": "2025-11-02T16:40:12.1182311+00:00"
+    },
+    {
+      "id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/mc_rg-aks-dev_aks-dev_westeurope/providers/Microsoft.Compute/disks/pvc-3f9c1e2a-7b44-4c1e-9d0a-2f6a1c9e8b10",
+      "name": "pvc-3f9c1e2a-7b44-4c1e-9d0a-2f6a1c9e8b10",
+      "location": "westeurope",
+      "resourceGroup": "mc_rg-aks-dev_aks-dev_westeurope",
+      "subscriptionId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "skuName": "StandardSSD_LRS",
+      "sizeGb": 256,
+      "timeCreated": "2025-06-30T11:02:44.0811520+00:00",
+      "lastOwnershipUpdate": "2026-02-18T08:15:30.5520112+00:00"
+    },
+    {
+      "id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-restore-test/providers/Microsoft.Compute/disks/restore-test-osdisk",
+      "name": "restore-test-osdisk",
+      "location": "northeurope",
+      "resourceGroup": "rg-restore-test",
+      "subscriptionId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "skuName": "Standard_LRS",
+      "sizeGb": 128,
+      "timeCreated": "2025-09-09T14:55:01.9921004+00:00",
+      "lastOwnershipUpdate": ""
+    }
+  ],
+  "skip_token": null,
+  "total_records": 3
+}

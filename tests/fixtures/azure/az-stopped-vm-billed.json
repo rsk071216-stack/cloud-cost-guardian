@@ -1,0 +1,32 @@
+{
+  "count": 2,
+  "data": [
+    {
+      "id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourcegroups/rg-devops/providers/microsoft.compute/virtualmachines/vm-build-agent-02",
+      "name": "vm-build-agent-02",
+      "location": "westeurope",
+      "resourceGroup": "rg-devops",
+      "subscriptionId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "vmSize": "Standard_D4s_v3",
+      "powerState": "PowerState/stopped",
+      "disks": [
+        { "sku": "Premium_LRS", "sizeGb": 128 }
+      ]
+    },
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourcegroups/rg-sap-sandbox/providers/microsoft.compute/virtualmachines/vm-sap-sandbox",
+      "name": "vm-sap-sandbox",
+      "location": "westeurope",
+      "resourceGroup": "rg-sap-sandbox",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "vmSize": "Standard_E8s_v3",
+      "powerState": "PowerState/deallocated",
+      "disks": [
+        { "sku": "Premium_LRS", "sizeGb": 512 },
+        { "sku": "Premium_LRS", "sizeGb": 1024 }
+      ]
+    }
+  ],
+  "skip_token": null,
+  "total_records": 2
+}

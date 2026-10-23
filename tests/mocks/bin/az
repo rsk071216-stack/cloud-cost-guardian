@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Test double for the Azure CLI. Serves Resource Graph responses from tests/fixtures/azure/<rule_id>.json
+# (and <rule_id>.page2.json when --skip-token is passed). Any command other than the read-only ones the
+# scanner is allowed to use fails loudly, so the test suite proves the scanner never writes.
+set -euo pipefail
+
+FIXTURES="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../fixtures/azure" && pwd)"
+
+if [[ -n "${CCG_MOCK_LOG:-}" ]]; then
+  printf 'az %s %s\n' "${1:-}" "${2:-}" >>"$CCG_MOCK_LOG"
+fi
+
+case "${1:-} ${2:-}" in
+  "account show")
+    if [[ "${CCG_MOCK_AZ_LOGGED_OUT:-0}" == "1" ]]; then
+      echo "ERROR: Please run 'az login' to setup account." >&2
+      exit 1
+    fi
+    exit 0
+    ;;
+  "graph query") ;;
+  *)
+    echo "mock az: refusing non read-only command: az $*" >&2
+    exit 99
+    ;;
+esac
+
+rule="${CCG_RULE_ID:?mock az needs CCG_RULE_ID}"
+skip_token=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --skip-token) skip_token="$2"; shift 2 ;;
+    *) shift ;;
+  esac
+done
+
+if [[ -n "$skip_token" ]]; then
+  file="$FIXTURES/$rule.page2.json"
+else
+  file="$FIXTURES/$rule.json"
+fi
+if [[ ! -f "$file" ]]; then
+  echo "mock az: no fixture for $rule ($file)" >&2
+  exit 3
+fi
+cat "$file"

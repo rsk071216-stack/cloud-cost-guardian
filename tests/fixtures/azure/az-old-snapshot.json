@@ -1,0 +1,33 @@
+{
+  "count": 2,
+  "data": [
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-sql-prod/providers/Microsoft.Compute/snapshots/snap-sqlvm-before-patch-2025",
+      "name": "snap-sqlvm-before-patch-2025",
+      "location": "westeurope",
+      "resourceGroup": "rg-sql-prod",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "skuName": "Standard_LRS",
+      "sizeGb": 1024,
+      "incremental": false,
+      "timeCreated": "2025-09-04T22:10:33.4410021+00:00",
+      "ageDays": 410,
+      "sourceResourceId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-sql-prod/providers/Microsoft.Compute/disks/sqlvm01-data-0"
+    },
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-web-prod/providers/Microsoft.Compute/snapshots/snap-web01-os",
+      "name": "snap-web01-os",
+      "location": "westeurope",
+      "resourceGroup": "rg-web-prod",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "skuName": "Premium_LRS",
+      "sizeGb": 128,
+      "incremental": false,
+      "timeCreated": "2026-04-02T07:45:19.0021933+00:00",
+      "ageDays": 200,
+      "sourceResourceId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-web-prod/providers/Microsoft.Compute/disks/web01-osdisk"
+    }
+  ],
+  "skip_token": null,
+  "total_records": 2
+}

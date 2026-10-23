@@ -1,0 +1,29 @@
+{
+  "count": 2,
+  "data": [
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-erp-prod/providers/Microsoft.Compute/virtualMachines/vm-erp-app-01",
+      "name": "vm-erp-app-01",
+      "type": "microsoft.compute/virtualmachines",
+      "location": "westeurope",
+      "resourceGroup": "rg-erp-prod",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "missingOwner": true,
+      "missingCostCenter": true,
+      "missingEnvironment": false
+    },
+    {
+      "id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-sandbox/providers/Microsoft.Storage/storageAccounts/stsandboxexports01",
+      "name": "stsandboxexports01",
+      "type": "microsoft.storage/storageaccounts",
+      "location": "northeurope",
+      "resourceGroup": "rg-sandbox",
+      "subscriptionId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "missingOwner": true,
+      "missingCostCenter": true,
+      "missingEnvironment": true
+    }
+  ],
+  "skip_token": "ew0KICAiJGlkIjogIjEiLA0KICAiTWF4Um93cyI6IDIsDQogICJSb3dzVG9Ta2lwIjogMiwNCiAgIkt1c3RvQ2x1c3RlclVybCI6ICJmaXh0dXJlIg0KfQ==",
+  "total_records": 3
+}

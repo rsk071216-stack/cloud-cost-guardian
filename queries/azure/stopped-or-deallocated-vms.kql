@@ -1,0 +1,24 @@
+// rule_id: az-stopped-vm-billed
+// What it finds: VMs in PowerState/stopped (shut down from inside the OS, compute STILL billed)
+//   and VMs in PowerState/deallocated (compute free, attached disks still billed).
+// Why it costs money: "Stopped" is not "deallocated": Azure keeps the host reserved and bills full compute.
+//   Deallocated VMs still pay for every OS and data disk at the provisioned tier.
+// Typical saving: Full VM compute cost for stopped VMs; disk cost for VMs deallocated long-term.
+// Remediation: Deallocate stopped VMs (az vm deallocate). For VMs deallocated for weeks, snapshot and delete,
+//   or downgrade their disks to Standard HDD while parked.
+// Risk: Low for deallocation. Deleting parked VMs needs owner sign-off.
+// Output columns: id, name, location, resourceGroup, subscriptionId, vmSize, powerState, disks[{sku,sizeGb}]
+Resources
+| where type =~ 'microsoft.compute/virtualmachines'
+| extend powerState = tostring(properties.extended.instanceView.powerState.code)
+| where powerState in~ ('PowerState/stopped', 'PowerState/deallocated')
+| project vmId = tolower(id), name, location, resourceGroup, subscriptionId, powerState,
+    vmSize = tostring(properties.hardwareProfile.vmSize)
+| join kind=leftouter (
+    Resources
+    | where type =~ 'microsoft.compute/disks'
+    | where isnotempty(managedBy)
+    | project vmId = tolower(managedBy), diskSku = tostring(sku.name), diskSizeGb = toint(properties.diskSizeGB)
+  ) on vmId
+| summarize disks = make_list(pack('sku', diskSku, 'sizeGb', diskSizeGb))
+    by id = vmId, name, location, resourceGroup, subscriptionId, vmSize, powerState

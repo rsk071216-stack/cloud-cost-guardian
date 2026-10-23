@@ -1,0 +1,6 @@
+subscription_id       = "00000000-0000-0000-0000-000000000000"
+alert_emails          = ["finance@example.com", "platform-team@example.com"]
+monthly_budget_amount = 5000
+budget_start_date     = "2026-11-01T00:00:00Z"
+shutdown_time         = "1900"
+shutdown_timezone     = "W. Europe Standard Time"

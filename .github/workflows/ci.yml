@@ -1,0 +1,131 @@
+name: CI
+
+# Everything here runs WITHOUT cloud credentials: lint, deterministic fixture tests,
+# Terraform validation, IaC security scanning and workflow linting.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SHELLCHECK_VERSION: v0.11.0
+  SHELLCHECK_SHA256: 8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198
+  JQ_VERSION: "1.7.1"
+  JQ_SHA256: 5942c9b0934e510ee61eb3e30273f1b3fe2590df93933a93d7c58b81d19c8ff5
+  ACTIONLINT_VERSION: "1.7.12"
+  ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+  TERRAFORM_VERSION: "1.16.5"
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install pinned ShellCheck
+        run: |
+          curl -fsSLo /tmp/shellcheck.tar.xz \
+            "https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_VERSION}/shellcheck-${SHELLCHECK_VERSION}.linux.x86_64.tar.xz"
+          echo "${SHELLCHECK_SHA256}  /tmp/shellcheck.tar.xz" | sha256sum -c -
+          tar -xJf /tmp/shellcheck.tar.xz -C /tmp
+          sudo install -m 0755 "/tmp/shellcheck-${SHELLCHECK_VERSION}/shellcheck" /usr/local/bin/shellcheck
+          shellcheck --version
+      - name: Lint every shell script
+        run: |
+          mapfile -t files < <(git ls-files '*.sh' 'tests/mocks/bin/*')
+          printf 'checking %s\n' "${files[@]}"
+          shellcheck --external-sources --severity=style "${files[@]}"
+
+  tests:
+    name: Fixture tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install pinned jq
+        run: |
+          curl -fsSLo /tmp/jq "https://github.com/jqlang/jq/releases/download/jq-${JQ_VERSION}/jq-linux-amd64"
+          echo "${JQ_SHA256}  /tmp/jq" | sha256sum -c -
+          sudo install -m 0755 /tmp/jq /usr/local/bin/jq
+          jq --version
+      - name: Run deterministic tests (mocked az/aws CLIs, no credentials)
+        run: bash tests/run.sh
+      - name: Publish sample report to the job summary
+        if: always()
+        run: cat docs/sample-report.md >> "$GITHUB_STEP_SUMMARY"
+
+  terraform:
+    name: Terraform (${{ matrix.dir }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        dir:
+          - terraform/azure-guardrails
+          - terraform/aws-guardrails
+          - terraform/aws-scanner-access
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: false
+      - name: terraform fmt
+        run: terraform -chdir="${{ matrix.dir }}" fmt -check -recursive -diff
+      - name: terraform init (no backend)
+        run: terraform -chdir="${{ matrix.dir }}" init -backend=false -input=false
+      - name: terraform validate
+        run: terraform -chdir="${{ matrix.dir }}" validate
+
+  checkov:
+    name: Checkov (soft fail)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Checkov IaC scan
+        uses: bridgecrewio/checkov-action@a76233b2c1d4a820a9dc68be350c473a4a9dceec # v12.3130.0
+        with:
+          directory: .
+          framework: terraform,github_actions
+          soft_fail: true
+          quiet: true
+          output_format: cli
+
+  actionlint:
+    name: actionlint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install pinned actionlint
+        run: |
+          curl -fsSLo /tmp/actionlint.tar.gz \
+            "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          echo "${ACTIONLINT_SHA256}  /tmp/actionlint.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/actionlint.tar.gz -C /tmp actionlint
+          sudo install -m 0755 /tmp/actionlint /usr/local/bin/actionlint
+          actionlint --version
+      - name: Lint workflows
+        run: actionlint -color

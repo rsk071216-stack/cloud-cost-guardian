@@ -1,0 +1,32 @@
+{
+  "Name": "Cloud Cost Guardian Reader",
+  "IsCustom": true,
+  "Description": "Read-only access to the resource types inspected by cloud-cost-guardian through Azure Resource Graph. No write, delete or data-plane actions.",
+  "Actions": [
+    "Microsoft.Resources/subscriptions/read",
+    "Microsoft.Resources/subscriptions/resourceGroups/read",
+    "Microsoft.Management/managementGroups/read",
+    "Microsoft.Compute/virtualMachines/read",
+    "Microsoft.Compute/virtualMachineScaleSets/read",
+    "Microsoft.Compute/disks/read",
+    "Microsoft.Compute/snapshots/read",
+    "Microsoft.Network/publicIPAddresses/read",
+    "Microsoft.Network/networkInterfaces/read",
+    "Microsoft.Network/loadBalancers/read",
+    "Microsoft.Network/applicationGateways/read",
+    "Microsoft.Network/natGateways/read",
+    "Microsoft.Web/serverfarms/read",
+    "Microsoft.Sql/servers/databases/read",
+    "Microsoft.DBforPostgreSQL/flexibleServers/read",
+    "Microsoft.DBforMySQL/flexibleServers/read",
+    "Microsoft.Storage/storageAccounts/read",
+    "Microsoft.ContainerService/managedClusters/read",
+    "Microsoft.Cache/redis/read"
+  ],
+  "NotActions": [],
+  "DataActions": [],
+  "NotDataActions": [],
+  "AssignableScopes": [
+    "/providers/Microsoft.Management/managementGroups/<MANAGEMENT_GROUP_ID>"
+  ]
+}

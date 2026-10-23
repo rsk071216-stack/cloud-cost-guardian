@@ -1,0 +1,7 @@
+{
+  "Label": "BytesOutToDestination",
+  "Datapoints": [
+    { "Timestamp": "2026-10-10T06:00:00+00:00", "Sum": 48318382080.0, "Unit": "Bytes" },
+    { "Timestamp": "2026-10-11T06:00:00+00:00", "Sum": 51539607552.0, "Unit": "Bytes" }
+  ]
+}

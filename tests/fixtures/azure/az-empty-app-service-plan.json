@@ -1,0 +1,29 @@
+{
+  "count": 2,
+  "data": [
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-marketing-prod/providers/Microsoft.Web/serverfarms/asp-marketing-prod",
+      "name": "asp-marketing-prod",
+      "location": "westeurope",
+      "resourceGroup": "rg-marketing-prod",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "skuName": "P1v3",
+      "skuTier": "PremiumV3",
+      "workers": 2,
+      "kind": "linux"
+    },
+    {
+      "id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-legacy-api/providers/Microsoft.Web/serverfarms/asp-legacy-api",
+      "name": "asp-legacy-api",
+      "location": "northeurope",
+      "resourceGroup": "rg-legacy-api",
+      "subscriptionId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "skuName": "S1",
+      "skuTier": "Standard",
+      "workers": 1,
+      "kind": "app"
+    }
+  ],
+  "skip_token": null,
+  "total_records": 2
+}

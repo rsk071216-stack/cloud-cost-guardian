@@ -1,0 +1,21 @@
+// rule_id: az-untagged-resource
+// What it finds: Billable resources missing any of the cost-allocation tags owner, cost-center, environment.
+// Why it costs money: Indirectly. Without owner and cost-center tags nobody can be asked "do you still need
+//   this?", showback/chargeback is impossible, and every other finding in this report stalls.
+// Typical saving: No direct saving. Tag coverage is the precondition for acting on the rest of the report.
+// Remediation: Add the missing tags, then enforce them with Azure Policy ("Require a tag on resource groups"
+//   plus "Inherit a tag from the resource group if missing"). Tag keys are matched case-sensitively here.
+// Risk: Low. Adding tags does not change runtime behaviour.
+// Output columns: id, name, type, location, resourceGroup, subscriptionId, missingOwner, missingCostCenter, missingEnvironment
+Resources
+| where type in~ (
+    'microsoft.compute/virtualmachines', 'microsoft.compute/virtualmachinescalesets', 'microsoft.compute/disks',
+    'microsoft.network/publicipaddresses', 'microsoft.network/loadbalancers', 'microsoft.network/applicationgateways',
+    'microsoft.network/natgateways', 'microsoft.web/serverfarms', 'microsoft.sql/servers/databases',
+    'microsoft.dbforpostgresql/flexibleservers', 'microsoft.dbformysql/flexibleservers',
+    'microsoft.storage/storageaccounts', 'microsoft.containerservice/managedclusters', 'microsoft.cache/redis')
+| extend missingOwner = isempty(tags['owner']),
+    missingCostCenter = isempty(tags['cost-center']),
+    missingEnvironment = isempty(tags['environment'])
+| where missingOwner or missingCostCenter or missingEnvironment
+| project id, name, type, location, resourceGroup, subscriptionId, missingOwner, missingCostCenter, missingEnvironment

@@ -1,0 +1,25 @@
+{
+  "count": 2,
+  "data": [
+    {
+      "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/rg-crm-old/providers/Microsoft.Network/networkInterfaces/vm-old-crm-nic01",
+      "name": "vm-old-crm-nic01",
+      "location": "westeurope",
+      "resourceGroup": "rg-crm-old",
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "privateIp": "10.20.4.11",
+      "hasPublicIp": true
+    },
+    {
+      "id": "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-sandbox/providers/Microsoft.Network/networkInterfaces/nic-test-temp",
+      "name": "nic-test-temp",
+      "location": "northeurope",
+      "resourceGroup": "rg-sandbox",
+      "subscriptionId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "privateIp": "10.90.1.37",
+      "hasPublicIp": false
+    }
+  ],
+  "skip_token": null,
+  "total_records": 2
+}

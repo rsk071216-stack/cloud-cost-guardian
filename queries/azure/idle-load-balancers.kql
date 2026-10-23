@@ -1,0 +1,22 @@
+// rule_id: az-idle-load-balancer
+// What it finds: Standard SKU load balancers that have rules configured but no backend pool members
+//   (no NIC IP configurations and no IP-based backend addresses).
+// Why it costs money: Standard Load Balancer is billed hourly once at least one rule exists (first 5 rules
+//   at one rate, extra rules on top), whether or not any traffic or backend exists.
+// Typical saving: About $18 per load balancer per month, plus about $7.30 per rule beyond five.
+// Remediation: Delete the load balancer, or remove its rules (a Standard LB with zero rules is not charged).
+// Risk: Low. A load balancer without backends cannot be serving traffic; check frontend IPs in DNS first.
+// Output columns: id, name, location, resourceGroup, subscriptionId, skuName, ruleCount, backendPoolCount
+Resources
+| where type =~ 'microsoft.network/loadbalancers'
+| where tostring(sku.name) =~ 'Standard'
+| extend pools = tostring(properties.backendAddressPools)
+| extend ruleCount = coalesce(array_length(properties.loadBalancingRules), 0)
+    + coalesce(array_length(properties.inboundNatRules), 0)
+    + coalesce(array_length(properties.outboundRules), 0)
+| where ruleCount > 0
+| where pools == '[]' or (pools !contains '"backendIPConfigurations"' and pools !contains '"ipAddress"')
+| project id, name, location, resourceGroup, subscriptionId,
+    skuName = tostring(sku.name),
+    ruleCount,
+    backendPoolCount = coalesce(array_length(properties.backendAddressPools), 0)

@@ -1,0 +1,22 @@
+// rule_id: az-old-snapshot
+// What it finds: Managed disk snapshots created more than 90 days ago.
+// Why it costs money: Snapshots are billed per GB-month until someone deletes them. Ad-hoc
+//   "before upgrade" snapshots are rarely cleaned up and quietly accumulate.
+// Typical saving: $0.05 (Standard) to $0.12 (Premium) per GB per month. Incremental snapshots bill only
+//   used/changed data, so the estimate based on provisioned size is an upper bound.
+// Remediation: Move long-term retention into an Azure Backup policy, then delete ad-hoc snapshots that are
+//   past the agreed retention period.
+// Risk: Medium. A snapshot may be the only copy of data from a deleted disk; check sourceResourceId first.
+// Output columns: id, name, location, resourceGroup, subscriptionId, skuName, sizeGb, incremental, timeCreated, ageDays, sourceResourceId
+Resources
+| where type =~ 'microsoft.compute/snapshots'
+| extend created = todatetime(properties.timeCreated)
+| where created < ago(90d)
+| project id, name, location, resourceGroup, subscriptionId,
+    skuName = tostring(sku.name),
+    sizeGb = toint(properties.diskSizeGB),
+    incremental = tobool(properties.incremental),
+    timeCreated = tostring(properties.timeCreated),
+    ageDays = datetime_diff('day', now(), created),
+    sourceResourceId = tostring(properties.creationData.sourceResourceId)
+| order by ageDays desc

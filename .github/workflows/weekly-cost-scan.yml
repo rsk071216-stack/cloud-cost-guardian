@@ -1,0 +1,117 @@
+name: Weekly cloud cost scan
+
+# Runs the read-only scanner against the clouds that are configured through repository VARIABLES
+# (not secrets: OIDC needs no stored credentials). A cloud whose variables are missing is skipped,
+# and when nothing is configured the workflow finishes green with a notice.
+#
+#   Azure: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID  (optional: CCG_AZURE_MANAGEMENT_GROUPS)
+#   AWS:   AWS_ROLE_ARN                                              (optional: CCG_AWS_REGIONS, AWS_DEFAULT_REGION)
+#
+# See docs/permissions.md for the exact read-only role and trust policy.
+
+on:
+  schedule:
+    - cron: "17 6 * * 1" # Mondays 06:17 UTC
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Which cloud to scan
+        type: choice
+        options: [all, azure, aws]
+        default: all
+      publish_issue:
+        description: Create/update the weekly report issue
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weekly-cost-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    name: Scan and report
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write # request the OIDC token used by azure/login and configure-aws-credentials
+      issues: write # create/update the single report issue in THIS repository
+    env:
+      REQUESTED: ${{ github.event.inputs.provider || 'all' }}
+      AZURE_CONFIGURED: ${{ vars.AZURE_CLIENT_ID != '' && vars.AZURE_TENANT_ID != '' && vars.AZURE_SUBSCRIPTION_ID != '' }}
+      AWS_CONFIGURED: ${{ vars.AWS_ROLE_ARN != '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Decide which clouds to scan
+        id: plan
+        run: |
+          providers=""
+          if [[ "$AZURE_CONFIGURED" == "true" && ( "$REQUESTED" == "all" || "$REQUESTED" == "azure" ) ]]; then
+            providers="azure"
+          fi
+          if [[ "$AWS_CONFIGURED" == "true" && ( "$REQUESTED" == "all" || "$REQUESTED" == "aws" ) ]]; then
+            providers="${providers:+$providers,}aws"
+          fi
+          if [[ -z "$providers" ]]; then
+            echo "::notice title=Nothing to scan::No cloud is configured for '$REQUESTED'. Set the repository variables described in docs/permissions.md."
+          fi
+          echo "providers=$providers" >> "$GITHUB_OUTPUT"
+
+      - name: Azure login (OIDC, no secrets)
+        if: contains(steps.plan.outputs.providers, 'azure')
+        uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install Azure Resource Graph extension
+        if: contains(steps.plan.outputs.providers, 'azure')
+        run: az extension add --name resource-graph --only-show-errors
+
+      - name: AWS credentials (OIDC, no secrets)
+        if: contains(steps.plan.outputs.providers, 'aws')
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          role-session-name: cloud-cost-guardian-${{ github.run_id }}
+          aws-region: ${{ vars.AWS_DEFAULT_REGION || 'us-east-1' }}
+          role-duration-seconds: 3600
+
+      - name: Run read-only scan
+        if: steps.plan.outputs.providers != ''
+        env:
+          PROVIDERS: ${{ steps.plan.outputs.providers }}
+          CCG_AWS_REGIONS: ${{ vars.CCG_AWS_REGIONS }}
+          CCG_AZURE_MANAGEMENT_GROUPS: ${{ vars.CCG_AZURE_MANAGEMENT_GROUPS }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          jq --version
+          bash scripts/scan.sh --provider "$PROVIDERS" --out out --run-url "$RUN_URL"
+          cat out/report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload report artifact
+        if: steps.plan.outputs.providers != ''
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: cost-report
+          path: |
+            out/report.md
+            out/report.html
+            out/findings.json
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Create or update the weekly report issue
+        if: steps.plan.outputs.providers != '' && (github.event_name == 'schedule' || github.event.inputs.publish_issue == 'true')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/publish-issue.sh out/issue.md

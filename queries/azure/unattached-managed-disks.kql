@@ -1,0 +1,20 @@
+// rule_id: az-unattached-disk
+// What it finds: Managed disks whose diskState is Unattached and that have no managedBy owner.
+// Why it costs money: Managed disks are billed on provisioned size and tier whether or not a VM uses them.
+//   Disks left behind after a VM is deleted are the most common single source of Azure storage waste.
+// Typical saving: 100% of the disk cost. A 1 TiB Premium SSD (P30) is roughly $135/month.
+// Remediation: Confirm with the owner (tags), take an incremental snapshot if the data may be needed,
+//   then delete the disk. Azure Site Recovery replica disks are excluded below.
+// Risk: Medium. Deleting a disk is irreversible; always snapshot first when ownership is unclear.
+// Output columns: id, name, location, resourceGroup, subscriptionId, skuName, sizeGb, timeCreated, lastOwnershipUpdate
+Resources
+| where type =~ 'microsoft.compute/disks'
+| where tostring(properties.diskState) =~ 'Unattached'
+| where isempty(managedBy)
+| where isnull(tags['ASR-ReplicaDisk']) and isnull(tags['asrseeddisk'])
+| project id, name, location, resourceGroup, subscriptionId,
+    skuName = tostring(sku.name),
+    sizeGb = toint(properties.diskSizeGB),
+    timeCreated = tostring(properties.timeCreated),
+    lastOwnershipUpdate = tostring(properties.LastOwnershipUpdateTime)
+| order by sizeGb desc
